@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hapa Drama</title>
+    <link rel="stylesheet" href="/web/app.css?v=docs-readme-1" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">.hapaDrama</p>
+          <h1>Hapa Drama</h1>
+          <p>Voice clip profiles, spoken script output, cards, and Cymatica handoffs from one loopback node.</p>
+          <span class="version">UI v9: README Docs viewer + saved default route</span>
+        </div>
+        <div class="status-card">
+          <div class="badges">
+            <span id="serviceStatus" class="pill">Bootstrapping local token...</span>
+            <span id="healthBadge" class="pill muted">health pending</span>
+            <span id="telemetryBadge" class="pill muted">telemetry pending</span>
+            <span id="processBadge" class="pill muted">no generation yet</span>
+          </div>
+          <small id="sessionHint">Loopback-only bearer token bootstrap.</small>
+        </div>
+      </section>
+      <section class="mode-guide" id="modeGuide">
+        <article><h3>Auto</h3><p>Chooses Flow for normal short text, Drama for long/high-intensity requests, or the selected Profile default.</p></article>
+        <article><h3>Flow</h3><p>Fast expressive path. Uses MLX-Audio when enabled, otherwise macOS speech.</p></article>
+        <article><h3>Drama</h3><p>High-emotion path. Uses DramaBox when enabled, otherwise macOS speech with profile identity.</p></article>
+        <article><h3>UltraFast</h3><p>Lowest-latency preview path. Uses Piper when enabled, otherwise macOS speech.</p></article>
+      </section>
+      <section class="docs-panel" id="docsPanel">
+        <div class="panel-head">
+          <div>
+            <p class="eyebrow">Docs / README / Protocol / Help</p>
+            <h2>Hapa Drama Operating Context</h2>
+            <p id="docsProvenance">Loading README.md from the repo root with safe Markdown rendering.</p>
+          </div>
+          <button id="refreshDocs" class="secondary">Refresh README</button>
+        </div>
+        <div id="docsContent" class="markdown-viewer">README.md pending.</div>
+      </section>
+      <section class="grid">
+        <article class="panel span-2">
+          <div class="panel-head">
+            <div>
+              <h2>Forge Clip</h2>
+              <p>Every UI request emits the same Hapa command envelope used by CLI and API callers.</p>
+            </div>
+            <button id="generate">Generate Voice Clip</button>
+          </div>
+          <div class="simple-mode">
+            <div class="simple-head">
+              <div>
+                <h3>Simple Mode</h3>
+                <p>Uses the saved default voice route shown below.</p>
+              </div>
+              <span id="defaultRouteBadge" class="pill muted">default route pending</span>
+            </div>
+            <label>Script <textarea id="simpleText">Hapa Drama simple mode is ready. This script uses the default DramaBox voice route.</textarea></label>
+            <div class="actions">
+              <button id="simpleGenerate">Generate Default Clip</button>
+            </div>
+          </div>
+          <div class="form-grid">
+            <label>Bearer token <input id="token" type="password" placeholder="auto-filled from /local/session" /></label>
+            <label>Actor <input id="actor" value="ui:hapa-drama" /></label>
+            <label>Requester node / agent <input id="requesterNode" placeholder="node:hapa-video, agent:director, etc." /></label>
+            <label>Mode
+              <select id="mode">
+                <option value="auto">Auto</option>
+                <option value="flow">Flow</option>
+                <option value="drama">Drama</option>
+                <option value="ultrafast">UltraFast</option>
+              </select>
+            </label>
+            <label>TTS Engine
+              <select id="ttsEngine">
+                <option value="">Auto by mode</option>
+                <option value="chatterbox">Chatterbox clone</option>
+                <option value="dramabox">DramaBox drama (Mac MLX preferred)</option>
+                <option value="dramabox-mlx">DramaBox MLX (Apple Silicon)</option>
+                <option value="dramabox-cuda">DramaBox CUDA</option>
+                <option value="mlx-audio">MLX-Audio / IndexTTS (legacy)</option>
+                <option value="macos-speech">macOS speech</option>
+              </select>
+            </label>
+            <label>Chatterbox model
+              <select id="chatterboxModel">
+                <option value="standard">Standard</option>
+                <option value="turbo">Turbo</option>
+              </select>
+            </label>
+            <label>Voice Profile <select id="voiceProfile"><option value="">No profile</option></select></label>
+            <label>Voice ID override <input id="voiceId" placeholder="optional voice-id" /></label>
+            <label>Emotion style <input id="emotionStyle" value="neutral" /></label>
+            <label>Emotion intensity
+              <input id="emotionIntensity" type="range" min="0" max="1" step="0.05" value="0.25" />
+              <span id="emotionValue" class="value">0.25</span>
+            </label>
+            <label>BPM <input id="bpm" type="number" step="1" placeholder="120" /></label>
+            <label>Start seconds <input id="startSeconds" type="number" step="0.01" value="0" /></label>
+            <label>Target duration seconds <input id="targetDuration" type="number" step="0.01" placeholder="optional" /></label>
+            <div class="checks">
+              <label><input id="mintCard" type="checkbox" checked /> Mint Card JSON</label>
+              <label><input id="cymaticaBundle" type="checkbox" checked /> Build Cymatica bundle + handoff zip</label>
+            </div>
+          </div>
+          <label>Script <textarea id="text">Hapa Drama is online. This clip can become a reusable voice Profile.</textarea></label>
+        </article>
+        <article class="panel">
+          <h2>Add Your Voice Clip</h2>
+          <div class="recorder-mode">
+            <div class="simple-head">
+              <div>
+                <h3>Record Voice</h3>
+                <p>Capture a WAV Profile and attach it to the next run.</p>
+              </div>
+              <span id="recordStatus" class="pill muted">ready</span>
+            </div>
+            <div class="actions">
+              <button id="recordStart">Record Voice</button>
+              <button id="recordStop" class="secondary" disabled>Stop</button>
+              <button id="recordSave" class="secondary" disabled>Save Recording</button>
+            </div>
+            <audio id="recordedAudio" controls preload="metadata"></audio>
+            <div class="checks">
+              <label><input id="recordMakeDefault" type="checkbox" checked /> Set as default voice</label>
+            </div>
+            <small id="recordMeta">No recording yet.</small>
+          </div>
+          <div class="default-voice-box">
+            <div>
+              <h3>Default Voice</h3>
+              <p id="defaultVoiceSummary">Default voice pending.</p>
+            </div>
+            <button id="setSelectedDefault" class="secondary">Set Selected as Default</button>
+          </div>
+          <p>Pick a local audio file, name the Profile, then select it in <strong>Voice Profile</strong> before pressing <strong>Generate Voice Clip</strong>.</p>
+          <label>Voice clip file
+            <input id="voiceClipFile" type="file" accept="audio/*,.wav,.mp3,.m4a,.flac,.aiff,.caf,.ogg" />
+          </label>
+          <label>Profile ID <input id="profileId" placeholder="profile-my-voice" /></label>
+          <label>Display name <input id="profileName" placeholder="My Voice" /></label>
+          <label>Voice ID <input id="profileVoiceId" placeholder="voice-my-voice" /></label>
+          <label>Default mode
+            <select id="profileDefaultMode">
+              <option value="auto">Auto</option>
+              <option value="flow">Flow</option>
+              <option value="drama">Drama</option>
+              <option value="ultrafast">UltraFast</option>
+            </select>
+          </label>
+          <label>Clip generation ID <input id="clipGenerationId" placeholder="optional: generated clip id" /></label>
+          <label>Description <textarea id="profileDescription" class="short" placeholder="What this voice is for"></textarea></label>
+          <label>Traits JSON <textarea id="traitsJson" class="short">{"tone":"neutral"}</textarea></label>
+          <label>Request hints JSON <textarea id="hintsJson" class="short">{"best_for":"dialogue"}</textarea></label>
+          <div class="actions">
+            <button id="uploadClip">Upload Clip + Create Profile</button>
+            <button id="saveProfile" class="secondary">Save Profile From Generated Clip</button>
+            <button id="refreshProfiles" class="secondary">Refresh Library</button>
+          </div>
+          <hr />
+          <h2>Voice Profile</h2>
+          <p>A Profile binds a voice identity to a sample clip. Other Hapa nodes can request it by sending <code>payload.voice_profile_id</code>.</p>
+          <p class="hint">Uploaded clips become Profiles immediately. Generated clips can also become Profiles with the secondary button above.</p>
+        </article>
+        <article class="panel">
+          <h2>Cultivator Entanglement</h2>
+          <p>Entanglement is persistent XP for a voice. Generating with a voice adds XP; this button lets agents intentionally reinforce one.</p>
+          <label>Voice ID <input id="entangleVoiceId" placeholder="voice-narrator" /></label>
+          <label>XP delta <input id="xpDelta" type="number" value="25" /></label>
+          <button id="entangleVoice">Entangle Voice</button>
+          <h3>Library</h3>
+          <div id="library" class="library">No profiles loaded yet.</div>
+        </article>
+        <article class="panel span-3 process-panel">
+          <div class="panel-head">
+            <div>
+              <h2>Generation Process Monitor</h2>
+              <p>Hapa process state, telemetry, lifecycle events, and final outcome for the selected generation.</p>
+            </div>
+            <button id="refreshRuntime" class="secondary">Refresh Runtime</button>
+          </div>
+          <div class="metric-grid">
+            <div class="metric"><span>Status</span><strong id="currentStatus">idle</strong></div>
+            <div class="metric"><span>Stage</span><strong id="currentStage">waiting</strong></div>
+            <div class="metric"><span>Mode / Engine</span><strong id="currentEngine">—</strong></div>
+            <div class="metric"><span>Voice</span><strong id="currentVoice">—</strong></div>
+          </div>
+          <div class="progress-shell">
+            <div id="progressFill" class="progress-fill"></div>
+          </div>
+          <div class="process-meta">
+            <span id="progressText">0%</span>
+            <span id="currentGenerationId">No generation selected.</span>
+            <span id="currentUpdated">—</span>
+          </div>
+          <div id="outcomeCard" class="outcome-card idle">
+            Submit a generation to see success/failure, assets, provenance, and errors here.
+          </div>
+          <h3>Lifecycle</h3>
+          <div id="timeline" class="timeline"></div>
+          <h3>Recent Generations</h3>
+          <div id="recentGenerations" class="process-cards">No generations yet.</div>
+        </article>
+        <article class="panel span-3">
+          <div class="panel-head">
+            <div>
+              <h2>Director Track</h2>
+              <p>Last command, generated assets, profile calls, and API responses.</p>
+            </div>
+            <div class="actions" id="assetActions"></div>
+          </div>
+          <div id="audioPreview" class="audio-preview idle">
+            <div>
+              <strong id="audioPreviewTitle">No audio selected</strong>
+              <span id="audioPreviewMeta">Generate or select a completed run to preview audio.</span>
+            </div>
+            <audio id="audioPlayer" controls preload="metadata"></audio>
+          </div>
+          <pre id="output">Ready.</pre>
+        </article>
+      </section>
+    </main>
+    <script src="/web/app.js?v=docs-readme-1"></script>
+
+  <script data-hapa-kanban-ingress="hapa-app-hapa-drama">
+    (function () {
+      var projectId = 'hapa-app-hapa-drama';
+      var boardUrl = 'http://127.0.0.1:5181/?project=' + encodeURIComponent(projectId);
+      function mountKanbanIngress() {
+        if (!document.body || document.querySelector('[data-hapa-kanban-link="' + projectId + '"]')) return;
+        var link = document.createElement('a');
+        link.href = boardUrl;
+        link.target = '_blank';
+        link.rel = 'noreferrer';
+        link.textContent = 'Kanban';
+        link.className = 'hapa-kanban-ingress';
+        link.dataset.hapaKanbanLink = projectId;
+        link.setAttribute('aria-label', 'Open Overwatch Kanban board for ' + projectId);
+        Object.assign(link.style, {
+          position: 'fixed',
+          right: '16px',
+          bottom: '16px',
+          zIndex: '2147483000',
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          minHeight: '38px',
+          padding: '0 14px',
+          border: '1px solid rgba(55, 215, 255, 0.55)',
+          borderRadius: '8px',
+          background: 'rgba(2, 6, 23, 0.92)',
+          color: '#dffbff',
+          font: '700 12px/1.1 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
+          letterSpacing: '0',
+          textDecoration: 'none',
+          boxShadow: '0 0 18px rgba(55, 215, 255, 0.22)',
+          backdropFilter: 'blur(10px)'
+        });
+        document.body.appendChild(link);
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', mountKanbanIngress, { once: true });
+      } else {
+        mountKanbanIngress();
+      }
+    }());
+  </script>
+</body>
+</html>

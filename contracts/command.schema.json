@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Hapa Drama Command",
+  "type": "object",
+  "required": ["api_version", "command_id", "kind", "mode"],
+  "properties": {
+    "api_version": { "const": "v1" },
+    "command_id": { "type": "string", "minLength": 1 },
+    "actor": { "type": "string" },
+    "kind": { "type": "string" },
+    "mode": { "enum": ["auto", "drama", "flow", "ultrafast"] },
+    "payload": { "type": "object" },
+    "provenance": { "type": "object" },
+    "options": { "type": "object" }
+  },
+  "additionalProperties": true
+}

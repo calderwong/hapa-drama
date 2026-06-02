@@ -1,0 +1,16 @@
+{
+  "name": "hapa-drama-desktop",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Electron desktop shell for the Hapa Drama loopback node.",
+  "main": "electron/main.cjs",
+  "scripts": {
+    "electron": "electron .",
+    "desktop": "electron .",
+    "watch": "HAPA_DRAMA_ELECTRON_DEV=1 electron .",
+    "check:electron": "node --check electron/main.cjs"
+  },
+  "devDependencies": {
+    "electron": "^42.2.0"
+  }
+}

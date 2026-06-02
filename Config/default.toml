@@ -1,0 +1,10 @@
+host = "127.0.0.1"
+port = 8758
+storage_dir = "./data"
+runtime_file = "./artifacts/runtime/hapa_drama_runtime.json"
+
+[engines]
+dramabox = false
+mlx_audio = false
+piper = false
+stub = true
