@@ -86,6 +86,7 @@ Safe Markdown behavior: the UI builds DOM nodes with `textContent`; source Markd
 Repo-appropriate checks for this node:
 
 ```bash
+pip install -e ".[dev]"
 PYTHONPATH=python python -m pytest tests -q
 python -m compileall python/hapa_drama_node tests scripts
 npm run check:electron

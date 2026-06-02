@@ -19,6 +19,7 @@ Pass gates:
 Commands:
 
 ```bash
+pip install -e ".[dev]"
 PYTHONDONTWRITEBYTECODE=1 python3 -m compileall -q python tests
 PYTHONPATH=python PYTHONDONTWRITEBYTECODE=1 python3 tests/run_baseline.py
 PYTHONDONTWRITEBYTECODE=1 python3 tests/run_api_smoke.py
