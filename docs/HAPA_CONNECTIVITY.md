@@ -1,7 +1,7 @@
 <!-- HAPA-CONNECTIVITY-DOC:BEGIN -->
 # Hapa Connectivity
 
-Generated: 2026-06-01T01:03:18.083Z
+Generated: 2026-06-03T23:17:21.544Z
 
 This file is a publication-safe cross-link for humans and AIs. It describes how this repo fits into the Hapa system without embedding private local paths, secrets, heavy assets, DB payloads, or generated media.
 
@@ -63,7 +63,7 @@ Source code, docs, schemas, and tiny fixtures are Git candidates after preflight
 
 ## Open Gates
 
-- Review 21 dirty working-tree entries before pinning.
+- Review 27 dirty working-tree entries before pinning.
 - Choose GitHub owner, repo name, and private/public visibility before remote creation.
 
 ## Safe Next Commands
