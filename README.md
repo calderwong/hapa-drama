@@ -49,6 +49,15 @@ hapa-drama synthesize --token "$TOKEN" --mode flow --text "Hapa Drama is online.
 
 All surfaces use the same command envelope documented in `docs/COMMAND_SCHEMA.md`.
 
+## Related Hapa nodes
+
+- [Hapa MLX Station](https://github.com/calderwong/hapa-mlx-station) — Media-generation hub that can supply or consume voice/audio artifacts.
+- [Hapa Song Registry](https://github.com/calderwong/hapa-song-registry) — Music and timing registry that complements narration, lyrics, and voice-stem outputs.
+- [Hapa Living Comic](https://github.com/calderwong/hapa-living-comic) — Narrative panel surface that can use generated narration and spoken character lines.
+- [Cymatica](https://github.com/calderwong/cymatica) — Spatial audio and stem-to-3D experiments that can receive Drama voice bundles.
+- [Hapa Space](https://github.com/calderwong/hapa-space) — Fleet runtime that can surface generated voice/telemetry as node ship context.
+- [Overwatch](https://github.com/calderwong/overwatch) — Operational board and evidence spine for generated media work.
+
 ## Hapa operating contract
 
 Hapa Drama is an active Hapa node app, not a passive library or archived production record. Its core feature spine is `python/hapa_drama_node/router.py`; API, CLI, web UI, Electron, and docs should either expose the same capability or mark the missing surface truthfully in `docs/FEATURE_PARITY.md`.
