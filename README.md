@@ -255,3 +255,13 @@ open Apps/HapaDramaApp/Package.swift
 ```
 
 The SwiftUI skeleton is intentionally thin; parity-critical behavior lives in the node command contract first.
+
+<!-- HAPA_NODE_ATLAS_DEMO:START -->
+## See It In Action
+
+<a href="https://calderwong.github.io/hapa-node-atlas/">
+  <img src="https://calderwong.github.io/hapa-node-atlas/assets/atalas-hero-loop-poster.jpg" alt="Hapa Node Atlas live demo" width="360">
+</a>
+
+[Open the Hapa Node Atlas demo](https://calderwong.github.io/hapa-node-atlas/)
+<!-- HAPA_NODE_ATLAS_DEMO:END -->
